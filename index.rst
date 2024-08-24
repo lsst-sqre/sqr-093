@@ -36,6 +36,10 @@ Date types
 
 The following data types are used in various places in the operation specification.
 
+.. note::
+
+   These should probably be lifted into :sqr:`091`, particularly since the encoding as query parameters probably doesn't match this layout.
+
 interval (list of float)
     Defines a range of floating point numbers.
     The value must be a list of length two, which specify the inclusive endpoints of the range.
