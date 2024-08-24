@@ -93,11 +93,15 @@ stencil (object)
         radius (float)
             Radius of the circle.
 
-    polygon (list of point, optional)
+    polygon (object, optional)
         Include the points within the polygon specified by the given points.
-        The points are the vertices of the polygon and must be given in the order that ensures the polygon winding direction is counter-clockwise when viewed from the origin towards the sky.
-        At least three points must be given.
-        The last edge of the polygon is the implicit edge from the last point to the first point.
+        This is an object with the following labels:
+
+        vertex (list of point, plural: vertices)
+            The vertices of the polygon.
+            They must be given in the order that ensures the polygon winding direction is counter-clockwise when viewed from the origin towards the sky.
+            At least three points must be given.
+            The last edge of the polygon is the implicit edge from the last point to the first point.
 
     range (object, optional)
         Include the points within a range of right ascension and declination values in the ICRS coordinate system.
@@ -116,9 +120,9 @@ stencil (object)
         Include data timestamped within the provided range, interpreted as Modified Julian Date values.
         To extract data from a specific instant, specify an interval with equal start and end values.
 
-    pol (list of enum, optional)
+    pol (list of enum, optional, plural: pols)
         Include the given polarization states.
-        The valid values are ``I``, ``Q``, ``U``, and ``V``.
+        Values must be chosen from ``I``, ``Q``, ``U``, and ``V``.
 
     At least one of the stencil labels must be given.
     Only one of ``circle``, ``polygon``, or ``range`` may be given.
