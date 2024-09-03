@@ -56,29 +56,6 @@ point (object)
     dec (float)
         The declination.
 
-Operations
-==========
-
-Perform a single cutout
------------------------
-
-Return a subsection of the object specified in the ``id`` parameter.
-The dimensions of the subsection are defined by the ``stencil`` parameter.
-
-The body of a successful response is the desired object subsection as a data response.
-The MIME type of that response will match the MIME type of the object from which the cutout was taken.
-For example, a cutout of a FITS data file will have a MIME type of ``application/fits``.
-
-Operation type: query
-
-``GET`` is not supported in the JSON network encoding.
-
-Parameters
-^^^^^^^^^^
-
-id (string)
-    The object from which to take a cutout.
-
 stencil (object)
     The specification of the shape of the cutout.
     This is an object with the following labels:
@@ -127,6 +104,66 @@ stencil (object)
     At least one of the stencil labels must be given.
     Only one of ``circle``, ``polygon``, or ``range`` may be given.
 
+Operations
+==========
+
+Perform a single cutout
+-----------------------
+
+Return a subsection of the object specified in the ``id`` parameter.
+The dimensions of the subsection are defined by the ``stencil`` parameter.
+
+Path
+    ``/sync``
+
+Operation type
+    action
+
+Parameters
+^^^^^^^^^^
+
+id (string)
+    The object from which to take a cutout.
+
+stencil (stencil)
+    The specification of the shape of the cutout.
+
+Response
+^^^^^^^^
+
+The body of a successful response is the desired object subsection as a data response.
+The MIME type of that response will match the MIME type of the object from which the cutout was taken.
+For example, a cutout of a FITS data file will have a MIME type of ``application/fits``.
+
+Async API
+---------
+
+For longer-running cutouts or cutouts involving multiple data IDs or multiple stencils, a UWS-based API is provided.
+The base path of the UWS API is ``/async``.
+See :sqr:`091` for the details of the UWS API.
+
+Parameters
+^^^^^^^^^^
+
+The input parameters to a UWS job are:
+
+id (list of string, plural: ids)
+    The objects from which to take cutouts.
+    At least one object must be specified.
+
+stencil (list of stencil, plural: stencils)
+    The specifications of the cutouts to take.
+    At least one stencil must be specified.
+
+Results
+^^^^^^^
+
+A job will return a list of results, one for every combination of data ID and stencil.
+The results will be ordered so that all cutouts for the first ID, with each stencil, are given first, and then all cutouts for the second ID with each stencil, and so forth.
+
+If any individual cutout failed but the full job could be completed, the result for the combination of ID and stencil that failed will have its ``error`` flag set.
+In this case, the content of that result will be a standard error (as specified in :sqr:`091`) encoded in a way that matches the network protocol in use.
+
 To do
 =====
 
@@ -135,4 +172,3 @@ The following things should be included in this specification but haven't been w
 .. rst-class:: compact
 
 - OpenAPI 3.0 schema.
-- UWS API that supports multiple ids and multiple stencils and returns all of the results as a list of UWS results.
