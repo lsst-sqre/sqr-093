@@ -31,7 +31,7 @@ One common use of this protocol is to return a subsection of an object (a "cutou
 
    An actual specification should include the far more extensive discussion from the current SODA standard.
 
-Date types
+Data types
 ==========
 
 The following data types are used in various places in the operation specification.
